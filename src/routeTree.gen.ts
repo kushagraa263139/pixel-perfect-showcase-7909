@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as MentorshipRouteImport } from './routes/mentorship'
+import { Route as SemestersRouteImport } from './routes/semesters'
+import { Route as SemesterSemIndexRouteImport } from './routes/semester.$sem.index'
+import { Route as SemesterSemSubjectRouteImport } from './routes/semester.$sem.$subject'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentorshipRoute = MentorshipRouteImport.update({
+  id: '/mentorship',
+  path: '/mentorship',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SemestersRoute = SemestersRouteImport.update({
+  id: '/semesters',
+  path: '/semesters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SemesterSemIndexRoute = SemesterSemIndexRouteImport.update({
+  id: '/semester/$sem/',
+  path: '/semester/$sem/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SemesterSemSubjectRoute = SemesterSemSubjectRouteImport.update({
+  id: '/semester/$sem/$subject',
+  path: '/semester/$sem/$subject',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/mentorship': typeof MentorshipRoute
+  '/semesters': typeof SemestersRoute
+  '/semester/$sem/$subject': typeof SemesterSemSubjectRoute
+  '/semester/$sem/': typeof SemesterSemIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/mentorship': typeof MentorshipRoute
+  '/semesters': typeof SemestersRoute
+  '/semester/$sem/$subject': typeof SemesterSemSubjectRoute
+  '/semester/$sem': typeof SemesterSemIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/mentorship': typeof MentorshipRoute
+  '/semesters': typeof SemestersRoute
+  '/semester/$sem/$subject': typeof SemesterSemSubjectRoute
+  '/semester/$sem/': typeof SemesterSemIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/mentorship'
+    | '/semesters'
+    | '/semester/$sem/$subject'
+    | '/semester/$sem/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/mentorship'
+    | '/semesters'
+    | '/semester/$sem/$subject'
+    | '/semester/$sem'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/mentorship'
+    | '/semesters'
+    | '/semester/$sem/$subject'
+    | '/semester/$sem/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  MentorshipRoute: typeof MentorshipRoute
+  SemestersRoute: typeof SemestersRoute
+  SemesterSemSubjectRoute: typeof SemesterSemSubjectRoute
+  SemesterSemIndexRoute: typeof SemesterSemIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentorship': {
+      id: '/mentorship'
+      path: '/mentorship'
+      fullPath: '/mentorship'
+      preLoaderRoute: typeof MentorshipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/semesters': {
+      id: '/semesters'
+      path: '/semesters'
+      fullPath: '/semesters'
+      preLoaderRoute: typeof SemestersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/semester/$sem/': {
+      id: '/semester/$sem/'
+      path: '/semester/$sem'
+      fullPath: '/semester/$sem/'
+      preLoaderRoute: typeof SemesterSemIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/semester/$sem/$subject': {
+      id: '/semester/$sem/$subject'
+      path: '/semester/$sem/$subject'
+      fullPath: '/semester/$sem/$subject'
+      preLoaderRoute: typeof SemesterSemSubjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  MentorshipRoute: MentorshipRoute,
+  SemestersRoute: SemestersRoute,
+  SemesterSemSubjectRoute: SemesterSemSubjectRoute,
+  SemesterSemIndexRoute: SemesterSemIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
