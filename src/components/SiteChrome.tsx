@@ -43,7 +43,7 @@ export function SiteFooter() {
         <div>
           <p className="font-hand text-2xl text-maroon">{site.tagline.line2}</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {site.name} \u2014 seniors ka chhota sa gift, juniors ke liye.
+            {site.name} — seniors ka chhota sa gift, juniors ke liye.
           </p>
         </div>
         <p className="text-sm text-muted-foreground">{site.email}</p>
