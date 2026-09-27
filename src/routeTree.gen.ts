@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SemestersRouteImport } from './routes/semesters'
+import { Route as SemesterSemIndexRouteImport } from './routes/semester.$sem.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const SemestersRoute = SemestersRouteImport.update({
   path: '/semesters',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SemesterSemIndexRoute = SemesterSemIndexRouteImport.update({
+  id: '/semester/$sem/',
+  path: '/semester/$sem/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/semesters': typeof SemestersRoute
+  '/semester/$sem/': typeof SemesterSemIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/semesters': typeof SemestersRoute
+  '/semester/$sem': typeof SemesterSemIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/semesters': typeof SemestersRoute
+  '/semester/$sem/': typeof SemesterSemIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/semesters'
+  fullPaths: '/' | '/semesters' | '/semester/$sem/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/semesters'
-  id: '__root__' | '/' | '/semesters'
+  to: '/' | '/semesters' | '/semester/$sem'
+  id: '__root__' | '/' | '/semesters' | '/semester/$sem/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SemestersRoute: typeof SemestersRoute
+  SemesterSemIndexRoute: typeof SemesterSemIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SemestersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/semester/$sem/': {
+      id: '/semester/$sem/'
+      path: '/semester/$sem'
+      fullPath: '/semester/$sem/'
+      preLoaderRoute: typeof SemesterSemIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SemestersRoute: SemestersRoute,
+  SemesterSemIndexRoute: SemesterSemIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
