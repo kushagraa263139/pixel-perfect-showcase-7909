@@ -44,6 +44,8 @@
   --color-indigo-ink: var(--indigo-ink);
   --color-sticky: var(--sticky);
   --color-rule: var(--rule);
+  --color-legacy-blue: var(--legacy-blue);
+  --color-legacy-rose: var(--legacy-rose);
   --font-display: "Fraunces", Georgia, serif;
   --font-sans: "Work Sans", system-ui, sans-serif;
   --font-hand: "Caveat", "Comic Sans MS", cursive;
@@ -60,6 +62,8 @@
   --indigo-ink: oklch(0.38 0.1 268);
   --sticky: oklch(0.9 0.11 95);
   --rule: oklch(0.83 0.03 85);
+  --legacy-blue: oklch(0.94 0.025 255);
+  --legacy-rose: oklch(0.945 0.03 25);
 
   --background: var(--paper);
   --foreground: var(--ink);
@@ -91,6 +95,8 @@
   --indigo-ink: oklch(0.7 0.09 268);
   --sticky: oklch(0.66 0.1 95);
   --rule: oklch(0.36 0.02 55);
+  --legacy-blue: oklch(0.29 0.035 255);
+  --legacy-rose: oklch(0.3 0.035 25);
 
   --background: var(--paper);
   --foreground: var(--ink);
@@ -201,8 +207,126 @@
   }
 }
 
+@keyframes gentle-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes arrow-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
 @utility flip-in {
   animation: paper-flip 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@utility founder-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: clamp(1.35rem, 3vw, 2rem);
+  box-shadow: 8px 8px 0 color-mix(in oklab, var(--kraft) 72%, transparent);
+  transition: transform 240ms ease, box-shadow 240ms ease;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -0.55rem;
+    left: 50%;
+    width: 4.5rem;
+    height: 1.15rem;
+    transform: translateX(-50%) rotate(-2deg);
+    background: color-mix(in oklab, var(--sticky) 70%, transparent);
+    border-inline: 1px solid color-mix(in oklab, var(--ink) 8%, transparent);
+  }
+  &:hover {
+    transform: translateY(-3px) rotate(0deg);
+    box-shadow: 10px 12px 0 color-mix(in oklab, var(--kraft) 82%, transparent);
+  }
+}
+
+@utility mission-card {
+  min-height: 17rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: transform 220ms ease;
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@utility legacy-step {
+  min-height: 11.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 1.1rem;
+  box-shadow: 4px 5px 0 color-mix(in oklab, var(--paper) 75%, transparent);
+}
+
+@utility cycle-return {
+  position: absolute;
+  right: 2.5%;
+  bottom: 0;
+  width: 95%;
+  height: 5.5rem;
+  color: var(--maroon);
+}
+
+@utility belief-card {
+  min-height: 12rem;
+  transition: transform 200ms ease, background-color 200ms ease;
+  &:hover {
+    transform: translateY(-2px);
+    background: var(--card);
+  }
+}
+
+@utility reveal-card {
+  animation: gentle-reveal 0.55s ease both;
+}
+
+.reveal-card:nth-child(2) { animation-delay: 80ms; }
+.reveal-card:nth-child(3) { animation-delay: 160ms; }
+.reveal-card:nth-child(4) { animation-delay: 240ms; }
+.legacy-arrow { animation: arrow-drift 2.4s ease-in-out infinite; }
+
+@media (max-width: 1023px) {
+  .legacy-step {
+    min-height: 0;
+    padding-left: 4.25rem;
+  }
+  .legacy-step > span {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-card,
+  .legacy-arrow,
+  .flip-in {
+    animation: none;
+  }
+  .founder-card,
+  .mission-card,
+  .belief-card {
+    transition: none;
+  }
 }
 
 @layer base {
